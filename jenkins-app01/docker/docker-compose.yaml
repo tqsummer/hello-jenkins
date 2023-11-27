@@ -1,0 +1,10 @@
+version: "3.1"
+services:
+  jenkins-app01:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: jenkins-app01:v0.0.1
+    container_name: jenkins-app01
+    ports:
+      - "8881:8080"
