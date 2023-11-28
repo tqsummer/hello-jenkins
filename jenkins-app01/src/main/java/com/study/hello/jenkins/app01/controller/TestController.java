@@ -15,6 +15,6 @@ public class TestController {
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
-        return "hello v0.0.4";
+        return "hello v0.0.5";
     }
 }
