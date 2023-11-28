@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: jenkins-app01:v0.0.2
+    image: ${IMAGE_NAME}
     container_name: jenkins-app01
     ports:
       - "8881:8080"
