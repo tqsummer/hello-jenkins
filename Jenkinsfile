@@ -44,4 +44,22 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            dingtalk(
+                    robot: 'dingding-jenkins-bot',
+                    type: 'MARKDOWN',
+                    title: "success: ${JOB_NAME}",
+                    text: ["- 成功构建：${JOB_NAME}! \n- 版本：${TAG} \n- 持续时间：${currentBuild.durationString}" ]
+            )
+        }
+        failure {
+            dingtalk(
+                    robot: 'dingding-jenkins-bot',
+                    type: 'MARKDOWN',
+                    title: "success: ${JOB_NAME}",
+                    text: ["- 成功构建：${JOB_NAME}! \n- 版本：${TAG} \n- 持续时间：${currentBuild.durationString}" ]
+            )
+        }
+    }
 }
