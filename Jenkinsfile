@@ -33,14 +33,10 @@ pipeline {
                     rm -fr docker-build'''
             }
         }
-        stage('上传Docker-compose文件到服务器') {
+        stage('上传Docker-compose文件并部署') {
             steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'dev-server01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'jenkins-app01/docker/docker-compose.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-            }
-        }
-        stage('服务部署') {
-            steps {
-                echo '服务部署成功'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'dev-server01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /usr/local/app-root/${JOB_NAME}-${TAG}
+jenkins-compose-deploy docker-hub.anyserver.online my-jenkins-app ${JOB_NAME} ${TAG}''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}-${TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/docker', sourceFiles: 'jenkins-app01/docker/docker-compose.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }
