@@ -44,4 +44,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            echo '构建成功'
+        }
+        failure {
+            echo '构建失败'
+        }
+    }
 }
