@@ -24,16 +24,17 @@ pipeline {
         }
         stage('上传镜像到Harbor') {
             steps {
-                sh '''mkdir -p docker-build
-                    cp jenkins-app01/build/Dockerfile docker-${TAG}-build
-                    cp jenkins-app01/target/*.jar docker-${TAG}-build
-                    docker buildx build -t ${IMAGE_NAME} docker-${TAG}-build/
+                sh '''BUILD_DIR=docker-${TAG}-build
+                    mkdir -p ${BUILD_DIR}
+                    cp jenkins-app01/deploy/Dockerfile ${BUILD_DIR}
+                    cp jenkins-app01/target/*.jar ${BUILD_DIR}
+                    docker buildx build -t ${IMAGE_NAME} ${BUILD_DIR}/
                     docker login -u appdev -p Appdev12345 docker-hub.anyserver.online
                     docker tag ${IMAGE_NAME} ${HARBOR_IMAGE_NAME}
                     docker push ${HARBOR_IMAGE_NAME}
                     docker rmi ${HARBOR_IMAGE_NAME}
                     docker rmi ${IMAGE_NAME}
-                    rm -fr docker-${TAG}-build'''
+                    rm -fr ${BUILD_DIR}'''
             }
         }
         stage('上传k8s部署文件并部署') {
