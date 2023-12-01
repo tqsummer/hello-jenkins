@@ -25,7 +25,7 @@ pipeline {
         stage('上传镜像到Harbor') {
             steps {
                 sh '''mkdir -p docker-build
-                    cp jenkins-app01/docker/Dockerfile docker-${TAG}-build
+                    cp jenkins-app01/build/Dockerfile docker-${TAG}-build
                     cp jenkins-app01/target/*.jar docker-${TAG}-build
                     docker buildx build -t ${IMAGE_NAME} docker-${TAG}-build/
                     docker login -u appdev -p Appdev12345 docker-hub.anyserver.online
