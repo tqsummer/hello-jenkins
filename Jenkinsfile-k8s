@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    envrioment {
+    environment {
         IMAGE_NAME = '${JOB_NAME}:${TAG}'
         HARBOR_IMAGE_NAME='docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}'
     }
