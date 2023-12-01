@@ -2,10 +2,7 @@ pipeline {
     agent any
 
     stages {
-        environment {
-            IMAGE_NAME = '${JOB_NAME}:${TAG}'
-            HARBOR_IMAGE_NAME='docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}'
-        }
+
         stage('拉取git代码') {
             steps {
                 checkout scmGit(branches: [[name: '${TAG}']], extensions: [], userRemoteConfigs: [[credentialsId: 'ced296a9-58b8-4e41-926e-e13a1885d932', url: 'https://git.anyserver.online:20443/tqsummer/hello-jenkins.git']])
@@ -22,6 +19,10 @@ pipeline {
             }
         }
         stage('上传镜像到Harbor') {
+            environment {
+                IMAGE_NAME = '${JOB_NAME}:${TAG}'
+                HARBOR_IMAGE_NAME='docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}'
+            }
             steps {
                 sh '''BUILD_DIR=docker-${TAG}-build
                     mkdir -p ${BUILD_DIR}
