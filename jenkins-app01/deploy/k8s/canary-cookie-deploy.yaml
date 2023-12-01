@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-app01-canary-deployment
+  labels:
+    app: jenkins-app01-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-app01-canary
+  template:
+    metadata:
+      labels:
+        app: jenkins-app01-canary
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - name: c-jenkins-app01-canary
+          image: ${IMAGE_NAME}
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-app01-canary-service
+spec:
+  selector:
+    app: jenkins-app01-canary
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-app01-canary-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-by-cookie: "canary"
+spec:
+  rules:
+    - host: jenkins-app01.anyserver.online
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jenkins-app01-canary-service
+                port:
+                  number: 80
