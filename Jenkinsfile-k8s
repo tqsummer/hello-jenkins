@@ -23,6 +23,8 @@ pipeline {
         stage('上传镜像到Harbor') {
             steps {
                 sh '''BUILD_DIR=docker-${TAG}-build
+                    IMAGE_NAME=${JOB_NAME}:${TAG}
+                    HARBOR_IMAGE_NAME=docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}
                     mkdir -p ${BUILD_DIR}
                     cp jenkins-app01/deploy/Dockerfile ${BUILD_DIR}
                     cp jenkins-app01/target/*.jar ${BUILD_DIR}
