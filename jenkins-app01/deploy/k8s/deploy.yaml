@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-app01-${TAG}-deployment
+  labels:
+    app: jenkins-app01
+    tag: ${TAG}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-app01
+      tag: ${TAG}
+  template:
+    metadata:
+      labels:
+        app: jenkins-app01
+        tag: ${TAG}
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - name: c-jenkins-app01
+          image: ${IMAGE_NAME}
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-app01-${TAG}-service
+spec:
+  selector:
+    app: jenkins-app01
+    tag: ${TAG}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-app01-${TAG}-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  rules:
+    - host: jenkins-app01.anyserver.online
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jenkins-app01-${TAG}-service
+                port:
+                  number: 80
