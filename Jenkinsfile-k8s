@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME='${env.JOB_NAME}:${env.TAG}'
-        HARBOR_IMAGE_NAME='docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}'
+
     }
 
     stages {
@@ -15,7 +14,9 @@ pipeline {
         }
         stage('Maven构建代码') {
             steps {
-                sh '/var/jenkins_home/softwares/apache-maven-3.9.5/bin/mvn clean package -DskipTests -DTAG=${TAG} -DIMAGE_NAME=${HARBOR_IMAGE_NAME}'
+                sh '''IMAGE_NAME=${JOB_NAME}:${TAG}
+                    HARBOR_IMAGE_NAME=docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}
+                    /var/jenkins_home/softwares/apache-maven-3.9.5/bin/mvn clean package -DskipTests -DTAG=${TAG} -DIMAGE_NAME=${HARBOR_IMAGE_NAME}'''
             }
         }
         stage('检测代码质量') {
