@@ -46,8 +46,8 @@ pipeline {
                 TAG = "latest"
             }
             steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'k8s-master01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /usr/local/app-root/${JOB_NAME}/${JOB_NAME}-${TAG}
-jenkins-k8s-deploy deploy.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}/${JOB_NAME}-${TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/target/deploy/k8s/', sourceFiles: 'jenkins-app01/target/deploy/k8s/deploy.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'k8s-master01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /usr/local/app-root/${JOB_NAME}/${JOB_NAME}-${env.TAG}
+jenkins-k8s-deploy deploy.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}/${JOB_NAME}-${env.TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/target/deploy/k8s/', sourceFiles: 'jenkins-app01/target/deploy/k8s/deploy.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
             }
         }
     }
