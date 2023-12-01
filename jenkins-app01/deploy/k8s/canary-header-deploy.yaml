@@ -43,6 +43,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary-by-header: "Region"
     nginx.ingress.kubernetes.io/canary-by-header-pattern: "shanghai"
 spec:
+  ingressClassName: nginx
   rules:
     - host: jenkins-app01.anyserver.online
       http:
