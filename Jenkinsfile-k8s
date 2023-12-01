@@ -40,7 +40,7 @@ pipeline {
         stage('上传k8s部署文件并部署') {
             steps {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'k8s-master01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /usr/local/app-root/${JOB_NAME}-${TAG}
-kubectl -f apply deploy.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}-${TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/target/deploy/k8s/', sourceFiles: 'jenkins-app01/target/deploy/k8s/deploy.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+jenkins-k8s-deploy deploy.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}-${TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/target/deploy/k8s/', sourceFiles: 'jenkins-app01/target/deploy/k8s/deploy.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }
