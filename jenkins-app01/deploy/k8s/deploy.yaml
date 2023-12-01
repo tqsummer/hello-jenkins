@@ -39,6 +39,7 @@ kind: Ingress
 metadata:
   name: jenkins-app01-ingress
 spec:
+  ingressClassName: nginx
   rules:
     - host: jenkins-app01.anyserver.online
       http:
