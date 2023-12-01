@@ -44,7 +44,7 @@ pipeline {
         }
         stage('部署服务') {
             steps {
-                sh '''ssh root@192.168.31.81 jenkins-k8s-deploy /usr/local/app-root/${JOB_NAME}/${JOB_NAME}-${TAG}/deploy.yaml jenkins-app01-deployment'''
+                sh '''ssh root@192.168.31.81 cd /usr/local/app-root/${JOB_NAME}/${JOB_NAME}-${TAG} ; jenkins-k8s-deploy deploy.yaml jenkins-app01-deployment'''
             }
         }
     }

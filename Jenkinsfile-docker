@@ -43,7 +43,7 @@ pipeline {
         }
         stage('部署服务') {
             steps {
-                sh '''ssh root@192.168.31.26 jenkins-compose-deploy docker-hub.anyserver.online my-jenkins-app ${JOB_NAME} ${TAG}'''
+                sh '''ssh root@192.168.31.26 cd /usr/local/app-root/${JOB_NAME}/${JOB_NAME}-${TAG} ; jenkins-compose-deploy docker-hub.anyserver.online my-jenkins-app ${JOB_NAME} ${TAG}'''
             }
         }
     }
