@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME='${env.JOB_NAME}:${env.TAG}'
+        HARBOR_IMAGE_NAME='docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}'
+    }
+
     stages {
 
         stage('拉取git代码') {
@@ -10,7 +15,7 @@ pipeline {
         }
         stage('Maven构建代码') {
             steps {
-                sh '/var/jenkins_home/softwares/apache-maven-3.9.5/bin/mvn clean package -DskipTests -DTAG=${TAG} -DIMAGE_NAME=${IMAGE_NAME}'
+                sh '/var/jenkins_home/softwares/apache-maven-3.9.5/bin/mvn clean package -DskipTests -DTAG=${TAG} -DIMAGE_NAME=${HARBOR_IMAGE_NAME}'
             }
         }
         stage('检测代码质量') {
@@ -21,10 +26,8 @@ pipeline {
         stage('上传镜像到Harbor') {
             steps {
                 sh '''BUILD_DIR=docker-${TAG}-build
-                    IMAGE_NAME=${JOB_NAME}:${TAG}
-                    HARBOR_IMAGE_NAME=docker-hub.anyserver.online/my-jenkins-app/${IMAGE_NAME}
                     mkdir -p ${BUILD_DIR}
-                    cp jenkins-app01/deploy/Dockerfile ${BUILD_DIR}
+                    cp jenkins-app01/target/deploy/Dockerfile ${BUILD_DIR}
                     cp jenkins-app01/target/*.jar ${BUILD_DIR}
                     docker buildx build -t ${IMAGE_NAME} ${BUILD_DIR}/
                     docker login -u appdev -p Appdev12345 docker-hub.anyserver.online
