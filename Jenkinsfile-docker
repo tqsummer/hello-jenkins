@@ -36,7 +36,7 @@ pipeline {
                     rm -fr ${BUILD_DIR}'''
             }
         }
-        stage('上传Docker-compose文件并部署') {
+        stage('上传docker部署文件') {
             steps {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'dev-server01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '${JOB_NAME}/${JOB_NAME}-${TAG}', remoteDirectorySDF: false, removePrefix: 'jenkins-app01/target/deploy/docker/', sourceFiles: 'jenkins-app01/target/deploy/docker/docker-compose.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
