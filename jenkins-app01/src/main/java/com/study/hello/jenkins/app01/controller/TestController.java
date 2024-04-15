@@ -28,12 +28,17 @@ public class TestController {
 
     @RequestMapping("/helloEnv")
     public String helloEnv(HttpServletRequest request) {
-        // 获取环境变量参数并打印
-        String paramValue = env.getProperty(request.getParameter("PARAM_NAME"));
+        try {
+            // 获取环境变量参数并打印
+            String paramValue = env.getProperty(request.getParameter("PARAM_NAME"));
 
-        // 打印环境变量参数
-        String message = "PARAM_NAME: " + request.getParameter("PARAM_NAME") + ", PARAM_VALUE:" + paramValue + "\n";
+            // 打印环境变量参数
+            String message = "PARAM_NAME: " + request.getParameter("PARAM_NAME") + ", PARAM_VALUE:" + paramValue + "\n";
+            //json打印env
+            return message;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
-        return message;
     }
 }
