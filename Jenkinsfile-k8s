@@ -17,7 +17,7 @@ pipeline {
         }
         stage('检测代码质量') {
             steps {
-                sh '/var/jenkins_home/softwares/sonar-scanner-5.0.1.3006/bin/sonar-scanner -Dsonar.projectname=${JOB_NAME} -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=./ -Dsonar.java.binaries=./jenkins-app01/target -Dsonar.login=sqa_5f9d4bad8e7739b80018c2666b5cc0c4e0b64c59'
+                sh '/var/jenkins_home/softwares/sonar-scanner-5.0.1.3006/bin/sonar-scanner -Dsonar.projectname=${JOB_NAME} -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=./ -Dsonar.java.binaries=./jenkins-app01/target -Dsonar.login=squ_9d2c50189faa93b83d52472162cffcf68998bb27'
             }
         }
         stage('上传镜像到Harbor') {
