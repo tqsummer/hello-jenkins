@@ -27,6 +27,7 @@ public class TestController {
     private Environment env;
 
     @RequestMapping("/helloEnv")
+    @ResponseBody
     public String helloEnv(HttpServletRequest request) {
         try {
             // 获取环境变量参数并打印
